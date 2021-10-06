@@ -32,8 +32,6 @@ export default class Canvas extends Game {
         Snake.ctx.clearRect(0, 0, Snake.ctx.canvas.width, Snake.ctx.canvas.height);
     }
 
-    //------------------------------------------------------------------------
-
     /**
      * draw
      */
@@ -68,8 +66,9 @@ export default class Canvas extends Game {
         window.requestAnimationFrame(Snake.helpers.draw)
     }
 
-    //-------------------------------------------------------------------------
-
+    /**
+     * Draws next target
+     */
     static drawTarget() {
         Snake.ctx.fillStyle = 'red'
         Snake.ctx.fillRect(

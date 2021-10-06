@@ -42,7 +42,6 @@ export default class Game {
      * process keydown event
      * @param {keydown event} e 
      */
-
     static processKeyDown = e => {
         let dir = Snake.snakeModelInstance.steppedDirection
         Snake.snakeModelInstance.direction =
