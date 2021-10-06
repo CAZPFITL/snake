@@ -1,0 +1,26 @@
+html {
+	box-sizing: border-box;
+	-webkit-font-smoothing: antialiased;
+	line-height: 1.15;
+	-webkit-overflow-scrolling: touch;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
+}
+
+*,
+*:after,
+*:before {
+	box-sizing: inherit;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+canvas {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    margin: auto;
+}
