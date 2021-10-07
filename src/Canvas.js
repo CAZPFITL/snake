@@ -40,7 +40,7 @@ export default class Canvas extends Game {
         Snake.helpers.clearCanvas()
         Snake.helpers.drawTarget()
         Snake.helpers.drawSnake()
-        Snake.helpers.requestAnimation(Snake.helpers.draw)
+        Snake.helpers.requestAnimation()
     }
 
     /**

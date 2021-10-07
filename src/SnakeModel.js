@@ -1,18 +1,10 @@
 export default class SnakeModel {
     constructor(color) {
-        this.color = color ?? '#D3D3'
         this.length = 1
-        this.direction = SnakeModel.getRandomDirection()
+        this.color = Snake.match.color ?? 'pink'
+        this.direction = 'right'
         this.actualPosition = [Math.trunc(Snake.canvasBounds[0] / 2), Math.trunc(Snake.canvasBounds[1] / 2)]
         this.snakeTrace = [this.actualPosition]
-    }
-
-    /**
-     * getRandomDirection
-     * @returns random direction generated
-     */
-    static getRandomDirection() {
-        return Snake.helpers.getRandomInt(3) === 0 ? 'left' : Snake.helpers.getRandomInt(3) === 1 ? 'right' : Snake.helpers.getRandomInt(3) === 2 ? 'up' : 'down'
     }
 
     /**
@@ -20,50 +12,53 @@ export default class SnakeModel {
      */
     step() {
         /**
-         * Snake Detects a fruit
-         */
-        let target = Snake.match.target
-        if (target[0] === this.actualPosition[0] && target[1] === this.actualPosition[1]) {
-            this.eat()
-        }
-
-        /**
-         * Snake is full
-         */
-        if (this.length === (Snake.canvasBounds[0] * Snake.canvasBounds[1])) {
-            this.full()
-        }
-
-        /**
-         * Snake Crash
-         */
-        if (this.actualPosition[0] < 0 ||
-            this.actualPosition[1] < 0 ||
-            this.actualPosition[0] > Snake.canvasBounds[0] ||
-            this.actualPosition[1] > Snake.canvasBounds[1]) {
-            this.crash()
-        }
-
-        /**
-         * Snake crash with itself ---------------------------------------------------------------------
-         */
-
-
-        for (var i = 0, l = Snake.snakeModelInstance.snakeTrace.length - 1; i < l; i++) {
-            if (this.snakeTrace[i][0] === this.actualPosition[0] && this.snakeTrace[i][1] === this.actualPosition[1]) {
-                console.log('crash')
-                this.crash()
-                break;
-            } else {
-                break;
-            }
-        }
-
-        /**
          * Move
          */
-        if (this.direction !== 'stop') {
+        if (Snake.state.state === 'start level') {
+            /**
+             * Snake crash with itself
+             */
+            if (this.isInTrace(this.actualPosition)) {
+                console.log('crash')
+                this.crash()
+            }
+
+            /**
+             * Snake Crash
+             */
+            if (this.actualPosition[0] < 0 ||
+                this.actualPosition[1] < 0 ||
+                this.actualPosition[0] > Snake.canvasBounds[0] ||
+                this.actualPosition[1] > Snake.canvasBounds[1]) {
+                this.crash()
+            }
+
+            /**
+             * Snake is full
+             */
+            if (this.length === (Snake.canvasBounds[0] * Snake.canvasBounds[1])) {
+                this.full()
+            }
+
+            /**
+             * Snake Detects a fruit
+             */
+            let target = Snake.match.target
+            if (target[0] === this.actualPosition[0] && target[1] === this.actualPosition[1]) {
+                this.eat()
+            }
+
             this.move()
+        }
+    }
+
+    isInTrace(coord) {
+        for (var i = 0, l = Snake.snakeModelInstance.snakeTrace.length - 1; i < l; i++) {
+            if (Snake.snakeModelInstance.snakeTrace[i][0] === coord[0] && Snake.snakeModelInstance.snakeTrace[i][1] === coord[1]) {
+                return true
+            } else {
+                return false
+            }
         }
     }
 
@@ -85,22 +80,36 @@ export default class SnakeModel {
     }
 
     crash() {
-        this.direction = 'stop'
         Snake.state.changeState('level fail')
     }
 
     full() {
-        this.direction = 'stop'
         Snake.state.changeState('level pass')
     }
 
-    eat() {
-        Snake.match.target = Snake.helpers.getRandomCoords()
-        this.length++ // 1 more in snake
-        if(this.length % 5 == 0) {
-            console.log('speed increased')
-            --Snake.match.speed
-            --Snake.counters.counterLimit
+    searchNewTarget(resolve) {
+        const randomTest = Snake.helpers.getRandomCoords()
+        if (!this.isInTrace(randomTest)) {
+            Snake.match.target = randomTest
+            resolve()
+        } else {
+            console.log('new target duplicated snake body coord, searching a new one.')
+            searchNewTarget(resolve)
         }
+    }
+
+
+    eat() {
+        new Promise(resolve => {
+            this.searchNewTarget(resolve)
+        }).then(() => {
+            this.length++
+            if (this.length % 10 == 0) {
+                console.log('speed increased')
+                --Snake.match.speed
+                --Snake.counters.counterLimit
+            }
+            console.log('Yum')
+        })
     }
 }

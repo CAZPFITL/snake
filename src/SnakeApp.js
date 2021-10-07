@@ -1,6 +1,6 @@
-import SnakeModel from "./SnakeModel.js";
-import State from "./State.js";
-import Helpers from "./Helpers.js";
+import Helpers from './Helpers.js';
+import SnakeModel from './SnakeModel.js';
+import State from './State.js';
 
 /**
  * TODO: avoid create targets over the snake * 
@@ -13,12 +13,13 @@ export default class SnakeApp {
         this.snakeModelInstance = {}
         this.canvasBounds = []
         this.match = {}
+        this.paused = false
         this.counters = {
             level: 1,
             counter: 0,
-            counterLimit: 50,
+            counterLimit: 20,
             stepSize: 25,
-            initialSpeed: 50,
+            initialSpeed: 20,
         }
     }
 
@@ -26,6 +27,7 @@ export default class SnakeApp {
      * Initializates the application
      */
     static init() {
+        console.log('init game')
         Helpers.createGlobal(this)
         Snake.state.changeState('request load')
         Snake.state.changeState('start level')
@@ -55,22 +57,10 @@ export default class SnakeApp {
      * Start level
      */
     startLevel() {
-        this.helpers.getLevelInfo()
-        this.snakeModelInstance = new this.SnakeModel(this.match.color)
+        if (!Snake.paused){
+            console.log('new instance')
+            Snake.helpers.getLevelInfo()
+            Snake.snakeModelInstance = new Snake.SnakeModel()
+        }
     }
-
-    /**
-     * If you win
-     */
-    levelPass() {
-
-    }
-
-    /**
-     * If you loose
-     */
-    levelFail() {
-
-    }
-
 }
