@@ -14,13 +14,120 @@ html {
 }
 
 * {
-    padding: 0;
-    margin: 0;
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	background: #333333;
+	display: flex;
+	position: relative;
+}
+body #screen {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	margin: 0 0;
+	display: flex;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+	margin: 0;
 }
 
 canvas {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    margin: auto;
+	height: 100%;
+	background: #ffffff;
+	margin: auto;
+}
+
+#screen {
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 20px 20px;
+}
+
+#screen .wrapper {
+	display: block;
+	height: 100%;
+	position: relative;
+}
+
+#screen .wrapper .controls {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	display: flex;
+	flex-wrap: wrap;
+	opacity: 0.6;
+}
+
+#screen .wrapper .controls.list {
+	display: block;
+	text-align: right;
+}
+
+#screen .wrapper .controls .middle {
+	flex: 100%;
+	display: inline-flex;
+}
+
+.up, .down, .left, .right {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.up, .down {
+	flex: 100%;
+}
+
+.left {
+	flex: auto;
+}
+
+.right {
+	flex: auto;
+}
+
+#screen .wrapper .controls svg {
+	border: 1px solid rgb(88, 88, 88);
+	border-radius: 5px;
+	width: 45px;
+	height: 45px;
+}
+
+#screen .wrapper .control {
+	font-size: 12px;
+}
+
+.start #screen {
+	border: 1px solid #333333;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+}
+
+.start #screen p {
+	margin: 2px;
+}
+
+.fail #screen {
+	background: rgba(234, 3, 3, 0.19);
+	justify-content: center;
+	align-items: center;
+}
+
+.pause #screen {
+	background: rgba(0, 0, 0, 0.6);
+	justify-content: center;
+	align-items: center;
+	color: #ffffff;
 }

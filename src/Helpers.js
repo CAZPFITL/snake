@@ -1,10 +1,6 @@
 import Canvas from './Canvas.js'
 
 export default class Helpers extends Canvas {
-    constructor() {
-        super()
-    }
-
     /**
      * Creates Snake on window global variable
      * @param {AppClass} App 
@@ -13,6 +9,47 @@ export default class Helpers extends Canvas {
         window.Snake = new App()
         Snake.state.add(Snake)
     }
+
+    /**
+     * This functions gives to Snake the fullscreen functionality
+     */
+     static fullScreenFunctionality() {
+        // Iniciar pantalla completa
+        Snake.fullScreen = () => {
+            console.log('message')
+            var docElm = document.documentElement
+            //W3C   
+            if (docElm.requestFullscreen) {
+                docElm.requestFullscreen()
+            }
+            //FireFox   
+            else if (docElm.mozRequestFullScreen) {
+                docElm.mozRequestFullScreen()
+            }
+            // Chrome, etc.   
+            else if (docElm.webkitRequestFullScreen) {
+                docElm.webkitRequestFullScreen()
+            }
+            //IE11   
+            else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen()
+            }
+        }
+
+        // Salir de pantalla completa
+        Snake.normalScreen = () => {
+            if (document.exitFullscreen) {
+                document.exitFullscreen()
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen()
+            } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen()
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen()
+            }
+        }
+    }
+
 
     /**
      * returns a random number

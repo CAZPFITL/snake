@@ -2,7 +2,9 @@ export default class SnakeModel {
     constructor(color) {
         this.length = 1
         this.color = Snake.match.color ?? 'pink'
+        //NOTE: stepped direction is the last move made direction is the next move to do
         this.direction = 'right'
+        this.steppedDirection = 'right'
         this.actualPosition = [Math.trunc(Snake.canvasBounds[0] / 2), Math.trunc(Snake.canvasBounds[1] / 2)]
         this.snakeTrace = [this.actualPosition]
     }
@@ -19,17 +21,16 @@ export default class SnakeModel {
              * Snake crash with itself
              */
             if (this.isInTrace(this.actualPosition)) {
-                console.log('crash')
                 this.crash()
             }
 
             /**
              * Snake Crash
              */
-            if (this.actualPosition[0] < 0 ||
-                this.actualPosition[1] < 0 ||
-                this.actualPosition[0] > Snake.canvasBounds[0] ||
-                this.actualPosition[1] > Snake.canvasBounds[1]) {
+            if (this.actualPosition[0] === 0 && this.direction === 'left' ||
+                this.actualPosition[1] === 0 && this.direction === 'up' ||
+                this.actualPosition[0] > Snake.canvasBounds[0] && this.direction === 'right' ||
+                this.actualPosition[1] > Snake.canvasBounds[1] && this.direction === 'down') {
                 this.crash()
             }
 
@@ -47,20 +48,21 @@ export default class SnakeModel {
             if (target[0] === this.actualPosition[0] && target[1] === this.actualPosition[1]) {
                 this.eat()
             }
-
-            this.move()
+            if(this.direction !== 'stop') {
+                this.move()
+            }
         }
     }
 
     isInTrace(coord) {
-        for (var i = 0, l = Snake.snakeModelInstance.snakeTrace.length - 1; i < l; i++) {
-            if (Snake.snakeModelInstance.snakeTrace[i][0] === coord[0] && Snake.snakeModelInstance.snakeTrace[i][1] === coord[1]) {
+        for (let traceIndex = 0; traceIndex < Snake.snakeModelInstance.snakeTrace.length - 1; traceIndex++) {
+            if (Snake.snakeModelInstance.snakeTrace[traceIndex][0] === coord[0] && Snake.snakeModelInstance.snakeTrace[traceIndex][1] === coord[1]) {
                 return true
-            } else {
-                return false
             }
         }
+        return false
     }
+
 
     move() {
         /**
@@ -75,15 +77,19 @@ export default class SnakeModel {
         let x = this.direction === 'left' ? (this.actualPosition[0] - 1) : this.direction === 'right' ? (this.actualPosition[0] + 1) : this.actualPosition[0]
         let y = this.direction === 'down' ? (this.actualPosition[1] + 1) : this.direction === 'up' ? (this.actualPosition[1] - 1) : this.actualPosition[1]
         this.actualPosition = [x, y]
-        this.snakeTrace.push(this.actualPosition)
         this.steppedDirection = this.direction
+        this.snakeTrace.push(this.actualPosition)
     }
 
     crash() {
+        console.log('crash')
+        this.steppedDirection = this.direction = 'stop'
         Snake.state.changeState('level fail')
     }
 
     full() {
+        console.log('crash')
+        this.steppedDirection = this.direction = 'stop'
         Snake.state.changeState('level pass')
     }
 
@@ -94,22 +100,23 @@ export default class SnakeModel {
             resolve()
         } else {
             console.log('new target duplicated snake body coord, searching a new one.')
-            searchNewTarget(resolve)
+            Snake.snakeModelInstance.searchNewTarget(resolve)
         }
     }
 
 
     eat() {
         new Promise(resolve => {
-            this.searchNewTarget(resolve)
+            Snake.snakeModelInstance.searchNewTarget(resolve)
         }).then(() => {
             this.length++
-            if (this.length % 10 == 0) {
+            if ((this.length) % 10 == 0) {
                 console.log('speed increased')
+                document.querySelector('canvas').style.background = Snake.helpers.randomColor()
                 --Snake.match.speed
                 --Snake.counters.counterLimit
             }
-            console.log('Yum')
+            Snake.helpers.drawScreen(Snake.state.state)
         })
     }
 }

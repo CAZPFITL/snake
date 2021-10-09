@@ -1,4 +1,5 @@
-export default class Game {
+import Screen from './Screen.js'
+export default class Game extends Screen {
     /**
      * @returns RandomColor
      */
@@ -43,7 +44,7 @@ export default class Game {
      * @param {keydown event} e 
      */
     static processKeyDown = e => {
-        let dir = Snake.snakeModelInstance.steppedDirection
+        // console.log(e)
         /**
          * restart game
          */
@@ -68,8 +69,9 @@ export default class Game {
         }
 
         /**
-         * change direction
+         * change direction (stepped direction is the last move made direction is the next move to do)
          */
+        let dir = Snake.snakeModelInstance.steppedDirection
         Snake.snakeModelInstance.direction =
             (e.key === 'ArrowDown' && dir !== 'up') ?
                 'down' : (e.key === 'ArrowUp' && dir !== 'down') ?
