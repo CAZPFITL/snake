@@ -13,10 +13,13 @@ export default class Helpers extends Canvas {
     /**
      * This functions gives to Snake the fullscreen functionality
      */
-     static fullScreenFunctionality() {
+    static fullScreenFunctionality() {
         // Iniciar pantalla completa
         Snake.fullScreen = () => {
-            console.log('message')
+            console.log('Go to full')
+            console.log(Snake.isFull)
+            Snake.isFull = !Snake.isFull
+            console.log(Snake.isFull)
             var docElm = document.documentElement
             //W3C   
             if (docElm.requestFullscreen) {
@@ -38,6 +41,8 @@ export default class Helpers extends Canvas {
 
         // Salir de pantalla completa
         Snake.normalScreen = () => {
+            console.log('Go to normal')
+            Snake.isFull = !Snake.isFull
             if (document.exitFullscreen) {
                 document.exitFullscreen()
             } else if (document.mozCancelFullScreen) {

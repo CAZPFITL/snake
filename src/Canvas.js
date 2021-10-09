@@ -15,7 +15,7 @@ export default class Canvas extends Game {
         canvas.id = canvas.id ?? 'SnakeApp'
         canvas.width = (Width / step) % 1 === 0 ? Width : Width + step / 2
         canvas.height = (Height / step) % 1 === 0 ? Height : Height + step / 2
-        canvas.style.borderTop = `${border}px solid #333333`
+        canvas.style.borderTop = `${(Height / step) % 1 === 0 ? border : border + 0.5}px solid #333333`
 
         Width = (Width / step) % 1 === 0 ? (Width / step) : (Width / step) + 0.5
         Height = (Height / step) % 1 === 0 ? (Height / step) : (Height / step) + 0.5

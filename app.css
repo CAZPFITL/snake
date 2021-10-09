@@ -65,7 +65,7 @@ canvas {
 	position: relative;
 }
 
-#screen .wrapper .controls {
+.start #screen .wrapper .controls {
 	position: absolute;
 	bottom: 0;
 	right: 0;
@@ -73,16 +73,16 @@ canvas {
 	flex-wrap: wrap;
 	opacity: 0.6;
 }
-#screen .wrapper .controls.mobile {
+.start #screen .wrapper .controls.mobile {
 	padding-bottom: 20px;	
 }
 
-#screen .wrapper .controls.list {
+.start #screen .wrapper .controls.list {
 	display: block;
 	text-align: right;
 }
 
-#screen .wrapper .controls .middle {
+.start #screen .wrapper .controls .middle {
 	flex: 100%;
 	display: inline-flex;
 }
@@ -105,7 +105,7 @@ canvas {
 	flex: auto;
 }
 
-#screen .wrapper .controls svg {
+.start #screen .wrapper .controls svg {
 	border: 1px solid rgb(88, 88, 88);
 	border-radius: 5px;
 	width: 45px;
@@ -114,13 +114,32 @@ canvas {
 	transition: fill, 0.2s ease, background 0.1s ease;
 }
 
-#screen .wrapper .controls svg:active {
+.start #screen .wrapper .controls svg:active {
 	fill: #FFFFFF;
 	background: #333333;
 }
 
-#screen .wrapper .control {
+.start #screen .wrapper .control {
 	font-size: 12px;
+}
+
+.start #screen .wrapper .screen-controls {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+.start #screen .wrapper .screen-controls svg {
+	border: 1px solid rgb(88, 88, 88);
+	border-radius: 5px;
+	width: 25px;
+	height: 25px;
+	background: #FFFFFF;
+	transition: fill, 0.2s ease, background 0.1s ease;
+}
+
+.start #screen .wrapper .screen-controls svg:active {
+	fill: #FFFFFF;
+	background: #333333;
 }
 
 .start #screen {

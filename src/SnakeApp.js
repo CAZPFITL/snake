@@ -3,12 +3,11 @@ import SnakeModel from './SnakeModel.js';
 import State from './State.js';
 
 /**
- * TODO: avoid create targets over the snake * 
+ * TODO:
  * onscreen controls toggle
  * main menu stage
  * main menu screen
  * options component
- * full screen toggle
  */
 export default class SnakeApp {
     constructor() {
@@ -19,6 +18,7 @@ export default class SnakeApp {
         this.canvasBounds = []
         this.match = {}
         this.paused = false
+        this.isFull = false
         this.counters = {
             level: 1,
             counter: 0,
@@ -54,6 +54,7 @@ export default class SnakeApp {
      */
     requestLoad() {
         this.helpers.createCanvas()
+        this.helpers.fullScreenFunctionality()
         window.addEventListener('keydown', this.helpers.processKeyDown)
         window.addEventListener('resize', this.helpers.getCanvas);
         // window.addEventListener('blur', () => this.helpers.processKeyDown({ key: 'p' }));

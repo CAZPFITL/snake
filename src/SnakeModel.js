@@ -1,6 +1,7 @@
 export default class SnakeModel {
     constructor(color) {
         this.length = 1
+        this.speed = 1
         this.color = Snake.match.color ?? 'pink'
         //NOTE: stepped direction is the last move made direction is the next move to do
         this.direction = 'right'
@@ -111,10 +112,10 @@ export default class SnakeModel {
         }).then(() => {
             this.length++
             if ((this.length) % 10 == 0) {
-                console.log('speed increased')
                 document.querySelector('canvas').style.background = Snake.helpers.randomColor()
-                --Snake.match.speed
-                --Snake.counters.counterLimit
+                Snake.match.speed -= Snake.snakeModelInstance.speed
+                Snake.counters.counterLimit -= Snake.snakeModelInstance.speed
+                Snake.snakeModelInstance.speed++; console.log('speed increased');
             }
             Snake.helpers.drawScreen(Snake.state.state)
         })
