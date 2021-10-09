@@ -62,7 +62,9 @@ export default class Screen {
                 body.classList = []
                 body.classList.add('fail')
                 screen.innerHTML = `
-                    SNAKE IS DEAD X_X
+                    <div class="fail" onclick="Snake.state.changeState('start level')">
+                        SNAKE IS DEAD X_X
+                    </div>
                 `
                 break;
 

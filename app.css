@@ -124,6 +124,7 @@ canvas {
 }
 
 .start #screen .wrapper .screen-controls {
+	opacity: 0.6;
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -155,8 +156,14 @@ canvas {
 
 .fail #screen {
 	background: rgba(234, 3, 3, 0.19);
+}
+
+.fail #screen .fail {
+	display: flex;
 	justify-content: center;
 	align-items: center;
+	width: 100%;
+	height: 100%;
 }
 
 .pause #screen {
