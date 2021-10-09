@@ -25,7 +25,7 @@ export default class Screen {
                 screen.innerHTML = isMobile ? `
                 <div class="wrapper">
                     <p>Targets: ${Snake.snakeModelInstance.length ?? 1}</p>
-                    <div class="controls">
+                    <div class="controls ${isMobile ? 'mobile' : ''}">
                         <div onclick="Snake.helpers.processKeyDown({key:'ArrowUp'});" class="button up">${arrows.up}</div>
                         <div class="middle">
                             <div onclick="Snake.helpers.processKeyDown({key:'ArrowLeft'});" class="button left">${arrows.left}</div>
