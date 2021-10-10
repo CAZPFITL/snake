@@ -45,7 +45,10 @@ export default class Screen {
                 </div>
                 ` : `
                 <div class="wrapper">
-                    <p>Targets: ${Snake.snakeModelInstance.length ?? 1}</p>
+                    <div class="info">
+                        <p>Targets: ${Snake.snakeModelInstance.length ?? 1}</p>
+                        <p>Speed: ${Snake.snakeModelInstance.speed ?? 1}</p>
+                    </div>
                     <div class="controls list">
                         <p class="control">Pause - <b>p</b></p>
                         <p class="control">Left - <b>Left arrow</b></p>
