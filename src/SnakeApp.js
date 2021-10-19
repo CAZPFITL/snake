@@ -1,9 +1,13 @@
-import SnakeModel from "./SnakeModel.js";
-import State from "./State.js";
-import Helpers from "./Helpers.js";
+import Helpers from './Helpers.js';
+import SnakeModel from './SnakeModel.js';
+import State from './State.js';
 
 /**
- * TODO: avoid create targets over the snake * 
+ * TODO:
+ * onscreen controls toggle
+ * main menu stage
+ * main menu screen
+ * options component
  */
 export default class SnakeApp {
     constructor() {
@@ -13,12 +17,14 @@ export default class SnakeApp {
         this.snakeModelInstance = {}
         this.canvasBounds = []
         this.match = {}
+        this.paused = false
+        this.isFull = false
         this.counters = {
             level: 1,
             counter: 0,
-            counterLimit: 50,
-            stepSize: 25,
-            initialSpeed: 50,
+            counterLimit: 20,
+            stepSize: 20,
+            initialSpeed: 20,
         }
     }
 
@@ -35,8 +41,8 @@ export default class SnakeApp {
      * Here you can process any state change from the app, reading "this.state.name" // create canvas -> createCanvas()
      */
     notification() {
-        console.log('New state: ' + this.state.state)
-
+        console.log(this.state.state)
+        Snake.helpers.drawScreen(Snake.state.state)
         let funct = this.helpers.getStateFunction()
         if (Snake[funct]) {
             Snake[funct](this)
@@ -48,29 +54,20 @@ export default class SnakeApp {
      */
     requestLoad() {
         this.helpers.createCanvas()
+        this.helpers.fullScreenFunctionality()
         window.addEventListener('keydown', this.helpers.processKeyDown)
+        window.addEventListener('resize', this.helpers.getCanvas);
+        // window.addEventListener('blur', () => this.helpers.processKeyDown({ key: 'p' }));
+        // window.addEventListener('focus', () => this.helpers.processKeyDown({ key: 'p' }));
     }
 
     /**
      * Start level
      */
     startLevel() {
-        this.helpers.getLevelInfo()
-        this.snakeModelInstance = new this.SnakeModel(this.match.color)
+        if (!Snake.paused) {
+            Snake.helpers.getLevelInfo()
+            Snake.snakeModelInstance = new Snake.SnakeModel()
+        }
     }
-
-    /**
-     * If you win
-     */
-    levelPass() {
-
-    }
-
-    /**
-     * If you loose
-     */
-    levelFail() {
-
-    }
-
 }

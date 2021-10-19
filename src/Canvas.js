@@ -6,11 +6,46 @@ export default class Canvas extends Game {
      * @returns canvas created
      */
     static getCanvas() {
-        let canvas = document.createElement('canvas')
-        canvas.id = 'SnakeApp'
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        let canvas = document.querySelector('canvas') ?? document.createElement('canvas')
+        let step = Snake.counters.stepSize
+        let Width = (window.innerWidth - step) - window.innerWidth.toString().slice(-1)
+        let Height = (window.innerHeight - step) - window.innerHeight.toString().slice(-1)
+        let border = (window.innerHeight - Height) / 2
+
+        canvas.id = canvas.id ?? 'SnakeApp'
+        canvas.width = (Width / step) % 1 === 0 ? Width : Width + step / 2
+        canvas.height = (Height / step) % 1 === 0 ? Height : Height + step / 2
+        canvas.style.borderTop = `${(Height / step) % 1 === 0 ? border : border + 0.5}px solid #333333`
+
+        Width = (Width / step) % 1 === 0 ? (Width / step) : (Width / step) + 0.5
+        Height = (Height / step) % 1 === 0 ? (Height / step) : (Height / step) + 0.5
+
+        Snake.canvasBounds = [Width - 2, Height - 2]
+
         return canvas
+    }
+
+    /**
+     * Screen contains the game controls
+     * @returns On game Screen
+     */
+    static getScreen() {
+        let screen = document.createElement('div')
+        screen.id = 'screen'
+        screen.width = window.innerWidth
+        screen.height = window.innerHeight
+        return screen
+    }
+
+    /**
+ * draw
+ */
+    static draw() {
+        Snake.helpers.step()
+        Snake.helpers.clearCanvas()
+        Snake.helpers.drawTarget()
+        Snake.helpers.drawSnake()
+        Snake.helpers.requestAnimation()
     }
 
     /**
@@ -18,9 +53,9 @@ export default class Canvas extends Game {
      */
     static createCanvas() {
         let canvas = Snake.helpers.getCanvas()
-        let step = Snake.counters.stepSize
+        let screen = Snake.helpers.getScreen()
         Snake.ctx = canvas.getContext('2d')
-        Snake.canvasBounds = [Math.trunc(canvas.width / step), Math.trunc(canvas.height / step)]
+        document.getElementsByTagName('body')[0].prepend(screen)
         document.getElementsByTagName('body')[0].prepend(canvas)
         Snake.helpers.requestAnimation()
     }
@@ -30,19 +65,6 @@ export default class Canvas extends Game {
      */
     static clearCanvas() {
         Snake.ctx.clearRect(0, 0, Snake.ctx.canvas.width, Snake.ctx.canvas.height);
-    }
-
-    //------------------------------------------------------------------------
-
-    /**
-     * draw
-     */
-    static draw() {
-        Snake.helpers.step()
-        Snake.helpers.clearCanvas()
-        Snake.helpers.drawTarget()
-        Snake.helpers.drawSnake()
-        Snake.helpers.requestAnimation(Snake.helpers.draw)
     }
 
     /**
@@ -68,8 +90,9 @@ export default class Canvas extends Game {
         window.requestAnimationFrame(Snake.helpers.draw)
     }
 
-    //-------------------------------------------------------------------------
-
+    /**
+     * Draws next target
+     */
     static drawTarget() {
         Snake.ctx.fillStyle = 'red'
         Snake.ctx.fillRect(

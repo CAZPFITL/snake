@@ -1,4 +1,9 @@
+@font-face {
+	font-family: "Mouse";
+	src: local("Mouse"), url("./font.woff") format("woff");
+}
 html {
+	font-family: "Mouse";
 	box-sizing: border-box;
 	-webkit-font-smoothing: antialiased;
 	line-height: 1.15;
@@ -14,13 +19,156 @@ html {
 }
 
 * {
-    padding: 0;
-    margin: 0;
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	background: #333333;
+	display: flex;
+	position: relative;
+}
+body #screen {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	margin: 0 0;
+	display: flex;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+	margin: 0;
 }
 
 canvas {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    margin: auto;
+	height: 100%;
+	background: #ffffff;
+	margin: auto;
+}
+
+#screen {
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 20px 20px;
+}
+
+#screen .wrapper {
+	display: block;
+	height: 100%;
+	position: relative;
+}
+
+.start #screen .wrapper .controls {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	display: flex;
+	flex-wrap: wrap;
+	opacity: 0.6;
+}
+.start #screen .wrapper .controls.mobile {
+	padding-bottom: 20px;	
+}
+
+.start #screen .wrapper .controls.list {
+	display: block;
+	text-align: right;
+}
+
+.start #screen .wrapper .controls .middle {
+	flex: 100%;
+	display: inline-flex;
+}
+
+.up, .down, .left, .right {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.up, .down {
+	flex: 100%;
+}
+
+.left {
+	flex: auto;
+}
+
+.right {
+	flex: auto;
+}
+
+.start #screen .wrapper .controls svg {
+	border: 1px solid rgb(88, 88, 88);
+	border-radius: 5px;
+	width: 45px;
+	height: 45px;
+	background: #FFFFFF;
+	transition: fill, 0.2s ease, background 0.1s ease;
+}
+
+.start #screen .wrapper .controls svg:active {
+	fill: #FFFFFF;
+	background: #333333;
+}
+
+.start #screen .wrapper .control {
+	font-size: 12px;
+}
+
+.start #screen .wrapper .screen-controls {
+	opacity: 0.6;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+.start #screen .wrapper .screen-controls svg {
+	border: 1px solid rgb(88, 88, 88);
+	border-radius: 5px;
+	width: 25px;
+	height: 25px;
+	background: #FFFFFF;
+	transition: fill, 0.2s ease, background 0.1s ease;
+}
+
+.start #screen .wrapper .screen-controls svg:active {
+	fill: #FFFFFF;
+	background: #333333;
+}
+
+.start #screen {
+	border: 1px solid #333333;
+	padding: 20px 20px 10px;
+	display: flex;
+	flex-direction: column;
+}
+
+.start #screen p {
+	margin: 2px;
+}
+
+.fail #screen {
+	background: rgba(234, 3, 3, 0.19);
+}
+
+.fail #screen .fail {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.pause #screen {
+	background: rgba(0, 0, 0, 0.6);
+	justify-content: center;
+	align-items: center;
+	color: #ffffff;
 }

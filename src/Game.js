@@ -1,10 +1,10 @@
-export default class Game {
+import Screen from './Screen.js'
+export default class Game extends Screen {
     /**
      * @returns RandomColor
      */
     static randomColor = () => {
-        let n = (Math.random() * 0xfffff * 1000000).toString(16);
-        return '#' + n.slice(0, 6);
+        return  `rgb(${Snake.helpers.getRandomInt(255)},${Snake.helpers.getRandomInt(255)},${Snake.helpers.getRandomInt(255)})`
     }
 
     /**
@@ -42,14 +42,40 @@ export default class Game {
      * process keydown event
      * @param {keydown event} e 
      */
-
     static processKeyDown = e => {
+        // console.log(e)
+        /**
+         * restart game
+         */
+        if(Snake.state.state === 'level fail' || Snake.state.state === 'level pass') {
+            Snake.state.changeState('start level')
+        } 
+
+        /**
+         * pause game
+         */
+        if(e.key === 'p') {
+
+            if(Snake.state.state === 'start level') {
+                Snake.state.changeState('level paused')
+                Snake.paused = true
+            } else if(Snake.state.state === 'level paused') {
+                Snake.state.changeState('start level')
+                Snake.paused = false
+            }
+        } else {
+            
+        }
+
+        /**
+         * change direction (stepped direction is the last move made direction is the next move to do)
+         */
         let dir = Snake.snakeModelInstance.steppedDirection
         Snake.snakeModelInstance.direction =
-            (e.code === 'ArrowDown' && dir !== 'up') ?
-                'down' : (e.code === 'ArrowUp' && dir !== 'down') ?
-                    'up' : (e.code === 'ArrowLeft' && dir !== 'right') ?
-                        'left' : (e.code === 'ArrowRight' && dir !== 'left') ?
+            (e.key === 'ArrowDown' && dir !== 'up') ?
+                'down' : (e.key === 'ArrowUp' && dir !== 'down') ?
+                    'up' : (e.key === 'ArrowLeft' && dir !== 'right') ?
+                        'left' : (e.key === 'ArrowRight' && dir !== 'left') ?
                             'right' : dir
     }
 }
