@@ -4,8 +4,7 @@ export default class Game extends Screen {
      * @returns RandomColor
      */
     static randomColor = () => {
-        let n = (Math.random() * 0xfffff * 1000000).toString(16);
-        return '#' + n.slice(0, 6);
+        return  `rgb(${Snake.helpers.getRandomInt(255)},${Snake.helpers.getRandomInt(255)},${Snake.helpers.getRandomInt(255)})`
     }
 
     /**
